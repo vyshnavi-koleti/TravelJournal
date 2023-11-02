@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CC04EA2B2AF42D1200E21303 /* NewFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC04EA2A2AF42D1200E21303 /* NewFile.swift */; };
+		CC04EA2D2AF4328800E21303 /* journalEntries.json in Resources */ = {isa = PBXBuildFile; fileRef = CC04EA2C2AF4328800E21303 /* journalEntries.json */; };
 		CC29281B2AEAE53A00FACB64 /* TravelJournalApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC29281A2AEAE53A00FACB64 /* TravelJournalApp.swift */; };
 		CC29281D2AEAE53A00FACB64 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC29281C2AEAE53A00FACB64 /* ContentView.swift */; };
 		CC29281F2AEAE53A00FACB64 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC29281E2AEAE53A00FACB64 /* Item.swift */; };
@@ -35,6 +37,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		CC04EA2A2AF42D1200E21303 /* NewFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewFile.swift; sourceTree = "<group>"; };
+		CC04EA2C2AF4328800E21303 /* journalEntries.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = journalEntries.json; sourceTree = "<group>"; };
 		CC2928172AEAE53A00FACB64 /* TravelJournal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TravelJournal.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CC29281A2AEAE53A00FACB64 /* TravelJournalApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelJournalApp.swift; sourceTree = "<group>"; };
 		CC29281C2AEAE53A00FACB64 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -100,7 +104,9 @@
 			children = (
 				CC29281A2AEAE53A00FACB64 /* TravelJournalApp.swift */,
 				CC29281C2AEAE53A00FACB64 /* ContentView.swift */,
+				CC04EA2C2AF4328800E21303 /* journalEntries.json */,
 				CC29281E2AEAE53A00FACB64 /* Item.swift */,
+				CC04EA2A2AF42D1200E21303 /* NewFile.swift */,
 				CC2928202AEAE53B00FACB64 /* Assets.xcassets */,
 				CC2928252AEAE53B00FACB64 /* TravelJournal.entitlements */,
 				CC2928262AEAE53B00FACB64 /* Info.plist */,
@@ -239,6 +245,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CC2928242AEAE53B00FACB64 /* Preview Assets.xcassets in Resources */,
+				CC04EA2D2AF4328800E21303 /* journalEntries.json in Resources */,
 				CC2928212AEAE53B00FACB64 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -266,6 +273,7 @@
 			files = (
 				CC29281D2AEAE53A00FACB64 /* ContentView.swift in Sources */,
 				CC29281F2AEAE53A00FACB64 /* Item.swift in Sources */,
+				CC04EA2B2AF42D1200E21303 /* NewFile.swift in Sources */,
 				CC29281B2AEAE53A00FACB64 /* TravelJournalApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

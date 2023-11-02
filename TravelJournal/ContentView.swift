@@ -8,14 +8,18 @@
 import SwiftUI
 import PhotosUI
 import CoreLocation
+//import CloudKit
 
-struct JournalEntry: Identifiable {
+
+struct JournalEntry: Identifiable, Codable {
     var id = UUID()
     var title: String
     var description: String
     var date: Date
     var weather: String?
-    var photos: [Image]?
+    var photos: [Data]?
+
+//    var recordID: CKRecord.ID?
 //    var location: CLLocation?
 
     
@@ -24,7 +28,8 @@ struct JournalEntry: Identifiable {
          description: String = "",
          date: Date = Date(),
          weather: String? = nil,
-         photos: [Image]? = nil) 
+         photos: [Data]? = nil)
+//        recordID: CKRecord.ID? = nil)
     //         location: CLLocation? = nil,
     {
         self.title = title
@@ -32,6 +37,7 @@ struct JournalEntry: Identifiable {
         self.date = date
         self.weather = weather
         self.photos = photos
+//        self.recordID = recordID
 //        self.location = location
 
     }
@@ -41,6 +47,7 @@ struct JournalEntry: Identifiable {
 struct ContentView: View {
     @State private var journalEntries = [JournalEntry]()
     @State private var showingNewEntryView = false
+        
     
     var body: some View {
         NavigationView {
@@ -56,10 +63,54 @@ struct ContentView: View {
                 Image(systemName: "plus")
             })
             .sheet(isPresented: $showingNewEntryView) {
-                NewJournalEntryView(journalEntries: $journalEntries)
+                NewJournalEntryView(journalEntries: $journalEntries, saveAction: saveJournalEntries)
             }
         }
+        .onAppear {
+            if !FileManager.default.fileExists(atPath: getDocumentsDirectory().appendingPathComponent("journalEntries.json").path) {
+                saveJournalEntries() // This will create an empty file on first launch
+            }
+            loadJournalEntries()
+        }
     }
+    
+//    Function to load entriess from local storage
+    func loadJournalEntries() {
+        let fileURL = getDocumentsDirectory().appendingPathComponent("journalEntries.json")
+        
+        // Checking if the file exists before trying to load it
+        if FileManager.default.fileExists(atPath: fileURL.path) {
+            do {
+                let data = try Data(contentsOf: fileURL)
+                journalEntries = try JSONDecoder().decode([JournalEntry].self, from: data)
+                print("Loaded journal entries: \(journalEntries)") // Console output for loaded data
+            } catch {
+                print("Error loading journal entries: \(error)")
+            }
+        } else {
+            print("Journal entries file does not exist. This may be the first app launch.")
+            // Optionally, create an empty file or handle this case as needed.
+        }
+    }
+
+    
+//     Function to save journal entries to local storage
+    func saveJournalEntries() {
+        let fileURL = getDocumentsDirectory().appendingPathComponent("journalEntries.json")
+        do {
+            let data = try JSONEncoder().encode(journalEntries)
+            try data.write(to: fileURL, options: [.atomicWrite, .completeFileProtection])
+            print("Journal entries saved successfully.")
+        } catch {
+            print("Error saving journal entries: \(error)")
+        }
+    }
+    
+//   function to get the documents directory
+        func getDocumentsDirectory() -> URL {
+            let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+            return paths[0]
+        }
 }
 
 
@@ -96,12 +147,14 @@ struct JournalDetailView: View {
                     .font(.body)
                 
                 // Photos
-                if let photos = entry.photos {
-                                    ForEach(0..<photos.count, id: \.self) { index in
-                                                    photos[index]
-                                            .resizable()
-                                            .scaledToFit()
-                                            .frame(height: 200)
+                if let photosData = entry.photos {
+                                    ForEach(photosData.indices, id: \.self) { index in
+                                        if let uiImage = UIImage(data: photosData[index]) {
+                                            Image(uiImage: uiImage)
+                                                .resizable()
+                                                .scaledToFit()
+                                                .frame(height: 200)
+                                        }
                                     }
                                 } else {
                                     Image(systemName: "photo")
@@ -109,7 +162,6 @@ struct JournalDetailView: View {
                                         .scaledToFit()
                                         .frame(height: 200)
                                 }
-                
                 
 //            Will add more UI elements as needed
                 
@@ -124,12 +176,15 @@ struct JournalDetailView: View {
 
 struct NewJournalEntryView: View {
     @Binding var journalEntries: [JournalEntry]
+    var saveAction: () -> Void
     @State private var title = ""
     @State private var description = ""
     @State private var selectedDate = Date()
     @State private var weather = ""
     @State private var selectedItems: [PhotosPickerItem] = []
-    @State private var selectedImages = [Image]()
+    @State private var uiImages = [Data]()
+//    @State private var selectedImages = [Image]()
+//    @State private var uiImages = [UIImage]()
     @Environment(\.presentationMode) var presentationMode
     
     var body: some View {
@@ -146,25 +201,24 @@ struct NewJournalEntryView: View {
 //                Photo picker
                 PhotosPicker("Select images", selection: $selectedItems, matching: .images)
                             }
-            .onChange(of: selectedItems){ newValue, _ in
-                                Task {
-                                    selectedImages.removeAll()
-                                    for item in selectedItems {
-                                        if let data = try? await item.loadTransferable(type: Data.self),
-                                           let uiImage = UIImage(data: data) {
-                                            let image = Image(uiImage: uiImage)
-                                            selectedImages.append(image)
-                                        }
-                                    }
-                                }
-                            }
-              
+            .onChange(of: selectedItems) { newValue, _ in
+                Task {
+                    uiImages.removeAll()
+                    for item in selectedItems {
+                        if let data = try? await item.loadTransferable(type: Data.self) {
+                            uiImages.append(data)
+                        }
+                    }
+                }
+            }
+
             .navigationBarTitle("New Entry")
             .navigationBarItems(leading: Button("Cancel") {
                 presentationMode.wrappedValue.dismiss()
             }, trailing: Button("Save") {
-                let newEntry = JournalEntry(title: title, description: description, date: selectedDate, weather: weather, photos: selectedImages)
+                let newEntry = JournalEntry(title: title, description: description, date: selectedDate, weather: weather, photos: uiImages)
                 journalEntries.append(newEntry)
+                saveAction() // Call the passed-in save function
                 presentationMode.wrappedValue.dismiss()
             })
         }
