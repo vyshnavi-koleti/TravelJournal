@@ -7,6 +7,11 @@
 
 import Foundation
 import SwiftData
+import Combine
+import SwiftUI
+import PhotosUI
+import CoreLocation
+import CoreLocationUI
 
 @Model
 final class Item {
