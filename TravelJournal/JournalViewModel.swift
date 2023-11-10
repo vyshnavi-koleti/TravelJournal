@@ -15,6 +15,23 @@ class JournalViewModel: ObservableObject {
     @Published var placeName: String = ""
     private let geocoder = CLGeocoder()
     
+    @Published var selectedCoordinate: CLLocationCoordinate2D = CLLocationCoordinate2D()
+    @Published var currentLocation: CLLocation?
+
+       private var locationManager = LocationManager()
+       private var locationUpdateCancellable: AnyCancellable?
+    
+    
+    init() {
+            locationUpdateCancellable = locationManager.$location.sink { [weak self] newLocation in
+                if let location = newLocation {
+                    self?.selectedCoordinate = location.coordinate
+                    self?.currentLocation = location
+                    self?.getPlaceName(from: location)
+                }
+            }
+        }
+    
 //    Function to load entriess from local storage
     func loadJournalEntries() {
         let fileURL = getDocumentsDirectory().appendingPathComponent("journalEntries.json")
@@ -64,11 +81,31 @@ class JournalViewModel: ObservableObject {
             }
         }
     
+//     Function to perform forward geocoding
+        func geocodeAddressString(_ addressString: String) {
+            geocoder.geocodeAddressString(addressString) { [weak self] (placemarks, error) in
+                guard let self = self else { return }
+
+                if let error = error {
+                    print("Geocoding error: \(error.localizedDescription)")
+                    return
+                }
+
+                if let placemark = placemarks?.first, let location = placemark.location {
+                    self.selectedCoordinate = location.coordinate
+                }
+            }
+        }
+    
+    
+    
+    
 //   function to get the documents directory
         func getDocumentsDirectory() -> URL {
             let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
             return paths[0]
         }
+    
     
     
     func addJournalEntry(_ entry: JournalEntry) {
