@@ -15,6 +15,7 @@ struct JournalEntry: Identifiable, Codable {
     var photos: [Data]?
     var latitude: Double?
     var longitude: Double?
+    var placeName: String?
     
 //    var location: CLLocation?
     
@@ -29,7 +30,8 @@ struct JournalEntry: Identifiable, Codable {
          date: Date = Date(),
          weather: String? = nil,
          photos: [Data]? = nil,
-         location: CLLocation? = nil)
+         location: CLLocation? = nil,
+         placeName: String? = nil)
 //        recordID: CKRecord.ID? = nil)
     //         location: CLLocation? = nil,
     {
@@ -40,6 +42,7 @@ struct JournalEntry: Identifiable, Codable {
         self.photos = photos
         self.latitude = location?.coordinate.latitude
         self.longitude = location?.coordinate.longitude
+        self.placeName = placeName
 //        self.recordID = recordID
 //        self.location = location
 
