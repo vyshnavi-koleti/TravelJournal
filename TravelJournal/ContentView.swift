@@ -33,9 +33,29 @@ struct ContentView: View {
 //                        .edgesIgnoringSafeArea(.all)
 
                     // List of journal entries
-                    List(viewModel.journalEntries) { entry in
-                        NavigationLink(destination: JournalDetailView(entry: entry)) {
-                            Text(entry.title)
+                    List {
+                        ForEach(viewModel.journalEntries) { entry in
+                            NavigationLink(destination: JournalDetailView(entry: .constant(entry), viewModel: viewModel, onSave: { updatedEntry in
+                                viewModel.updateJournalEntry(updatedEntry)
+                            })) {
+                                Text(entry.title)
+                            }
+                            .swipeActions {
+//                                // Edit action
+//                                Button {
+//                                    // code to handle edit action
+//                                } label: {
+//                                    Label("Edit", systemImage: "pencil")
+//                                }
+//                                .tint(.blue)
+                                
+                                // Delete action
+                                Button(role: .destructive) {
+                                    //delete
+                                } label: {
+                                    Label("Delete", systemImage: "trash")
+                                }
+                            }
                         }
                     }
                 }
@@ -80,7 +100,4 @@ struct ProfileView: View {
     ContentView()
         .modelContainer(for: Item.self, inMemory: true)
 }
-
-
-
 

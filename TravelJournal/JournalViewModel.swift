@@ -113,4 +113,11 @@ class JournalViewModel: ObservableObject {
         saveJournalEntries()
     }
     
+    func updateJournalEntry(_ updatedEntry: JournalEntry) {
+        if let index = journalEntries.firstIndex(where: { $0.id == updatedEntry.id }) {
+            journalEntries[index] = updatedEntry
+            saveJournalEntries()
+        }
+    }
+    
 }
