@@ -14,7 +14,6 @@
 		CC04EA332AFD586F00E21303 /* JournalDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC04EA322AFD586F00E21303 /* JournalDetailView.swift */; };
 		CC04EA352AFD590200E21303 /* NewJournalEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC04EA342AFD590200E21303 /* NewJournalEntryView.swift */; };
 		CC04EA372AFD59B900E21303 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC04EA362AFD59B900E21303 /* Utilities.swift */; };
-		CC04EA392AFD60A000E21303 /* JournalEntryEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC04EA382AFD60A000E21303 /* JournalEntryEditView.swift */; };
 		CC04EA3B2AFD919E00E21303 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC04EA3A2AFD919E00E21303 /* LocationManager.swift */; };
 		CC04EA3D2AFD9C8500E21303 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC04EA3C2AFD9C8500E21303 /* MapView.swift */; };
 		CC29281B2AEAE53A00FACB64 /* TravelJournalApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC29281A2AEAE53A00FACB64 /* TravelJournalApp.swift */; };
@@ -52,7 +51,6 @@
 		CC04EA322AFD586F00E21303 /* JournalDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalDetailView.swift; sourceTree = "<group>"; };
 		CC04EA342AFD590200E21303 /* NewJournalEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewJournalEntryView.swift; sourceTree = "<group>"; };
 		CC04EA362AFD59B900E21303 /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
-		CC04EA382AFD60A000E21303 /* JournalEntryEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalEntryEditView.swift; sourceTree = "<group>"; };
 		CC04EA3A2AFD919E00E21303 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		CC04EA3C2AFD9C8500E21303 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		CC2928172AEAE53A00FACB64 /* TravelJournal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TravelJournal.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -126,7 +124,6 @@
 				CC04EA342AFD590200E21303 /* NewJournalEntryView.swift */,
 				CC04EA3C2AFD9C8500E21303 /* MapView.swift */,
 				CC04EA3A2AFD919E00E21303 /* LocationManager.swift */,
-				CC04EA382AFD60A000E21303 /* JournalEntryEditView.swift */,
 				CC04EA362AFD59B900E21303 /* Utilities.swift */,
 				CC04EA2C2AF4328800E21303 /* journalEntries.json */,
 				CC29281E2AEAE53A00FACB64 /* Item.swift */,
@@ -306,7 +303,6 @@
 				CC04EA372AFD59B900E21303 /* Utilities.swift in Sources */,
 				CC04EA352AFD590200E21303 /* NewJournalEntryView.swift in Sources */,
 				CC29281B2AEAE53A00FACB64 /* TravelJournalApp.swift in Sources */,
-				CC04EA392AFD60A000E21303 /* JournalEntryEditView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

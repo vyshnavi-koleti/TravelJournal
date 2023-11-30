@@ -12,6 +12,8 @@ import PhotosUI
 import CoreLocation
 import CoreLocationUI
 import MapKit
+import WeatherKit
+
 //import CloudKit
 
 

@@ -5,12 +5,19 @@ import PhotosUI
 import CoreLocation
 import CoreLocationUI
 import MapKit
+import WeatherKit
+
 
 struct JournalDetailView: View {
     @Binding var entry: JournalEntry
     var viewModel: JournalViewModel
     @State private var showingEditView = false
     @State private var editableEntry: JournalEntry
+    @State private var selectedPhotosPickerItems: [PhotosPickerItem] = []
+    @State private var placeName: String = ""
+    @State private var isGeocoding = false
+
+
     
     var onSave: (JournalEntry) -> Void
     
@@ -18,10 +25,14 @@ struct JournalDetailView: View {
         self._entry = entry
         self.viewModel = viewModel
         self.onSave = onSave
-        var initialEntry = entry.wrappedValue
-        initialEntry.weather = initialEntry.weather ?? ""
+        let initialEntry = entry.wrappedValue
+//        initialEntry.weather = initialEntry.weather ?? "Default Weather Value"
         self._editableEntry = State(initialValue: initialEntry)
-        print("Initial description: \(initialEntry.description)") // Debugging line
+        if editableEntry.photos == nil {
+            editableEntry.photos = []
+        }
+        print("Initial place name: \(initialEntry.placeName ?? "nil")")
+//        print("Initial description: \(initialEntry.description)") // Debugging line
     }
 
 
@@ -32,8 +43,12 @@ struct JournalDetailView: View {
             VStack(alignment: .leading, spacing: 20) {
                 // Title
                 if showingEditView {
+                    
                     // Editable title
                     TextField("Title", text: $editableEntry.title)
+                        .placeholder(editableEntry.title.isEmpty) {
+                                Text("Enter Title").foregroundColor(.gray)
+                            }
                         .font(.largeTitle)
                         .fontWeight(.bold)
                 } else {
@@ -43,9 +58,7 @@ struct JournalDetailView: View {
                         .fontWeight(.bold)
                 }
                 
-                //                Text(entry.title)
-                //                    .font(.largeTitle)
-                //                    .fontWeight(.bold)
+
                 
                 // Date
                 if showingEditView {
@@ -58,18 +71,19 @@ struct JournalDetailView: View {
                 }
                 
                 
-                
-                //                Text(entry.date, style: .date)
-                //                    .font(.subheadline)
-                //                    .foregroundColor(.gray)
-                
+
                 // Location
-                
                 if showingEditView {
                     TextField("Latitude", value: $editableEntry.latitude, formatter: NumberFormatter())
                         .keyboardType(.decimalPad)
+                        .placeholder(editableEntry.latitude == nil) {
+                            Text("Enter Latitude").foregroundColor(.gray)
+                        }
                     TextField("Longitude", value: $editableEntry.longitude, formatter: NumberFormatter())
                         .keyboardType(.decimalPad)
+                        .placeholder(editableEntry.longitude == nil) {
+                            Text("Enter Longitude").foregroundColor(.gray)
+                        }
                 } else if let latitude = entry.latitude, let longitude = entry.longitude {
                     Text("Location: \(latitude), \(longitude)")
                         .font(.subheadline)
@@ -79,6 +93,7 @@ struct JournalDetailView: View {
                         .font(.subheadline)
                         .foregroundColor(.gray)
                 }
+
                 
                 
                 //                if let latitude = entry.latitude, let longitude = entry.longitude {
@@ -92,72 +107,165 @@ struct JournalDetailView: View {
                 //                }
                 
                 
-                // Weather
+
+                // Place Name
+//                if showingEditView {
+//                    TextField("Place Name", text: Binding<String>(
+//                        get: { editableEntry.placeName ?? "" },
+//                        set: { editableEntry.placeName = $0.isEmpty ? nil : $0 }
+//                    ))
+//                    .placeholder(editableEntry.placeName?.isEmpty ?? true) {
+//                        Text("Enter Place Name").foregroundColor(.gray)
+//                    }
+//                    .font(.subheadline)
+//                } else {
+//                    Text("Place Name: \(entry.placeName ?? "Not Available")")
+//                        .font(.subheadline)
+//                        .foregroundColor(.gray)
+//                }
+                // Place Name
+                if showingEditView {
+                    TextField("Place Name", text: Binding<String>(
+                        get: { editableEntry.placeName ?? "" },
+                        set: {
+                            editableEntry.placeName = $0.isEmpty ? nil : $0
+                            if let placeName = editableEntry.placeName {
+                                viewModel.geocodeAddressString(placeName) { newCoordinates in
+                                    editableEntry.latitude = newCoordinates.latitude
+                                    editableEntry.longitude = newCoordinates.longitude
+                                    
+                                    viewModel.fetchWeatherData(latitude: newCoordinates.latitude, longitude: newCoordinates.longitude) { weatherDescription in
+                                        self.editableEntry.weather = weatherDescription
+                                    }
+                                }
+                            }
+                        }
+                    ))
+                    .placeholder(editableEntry.placeName?.isEmpty ?? true) {
+                        Text("Enter Place Name").foregroundColor(.gray)
+                    }
+                    .font(.subheadline)
+                } else {
+                    Text("Place Name: \(entry.placeName ?? "Not Available")")
+                        .font(.subheadline)
+                        .foregroundColor(.gray)
+                }
+                
+//                if showingEditView {
+//                    TextField("Place Name", text: $editableEntry.placeName.nilCoalescingBinding)
+//                        .font(.subheadline)
+//                        .onChange(of: editableEntry.placeName) { newValue in
+//                            viewModel.geocodeAddressString(newValue) { newCoordinates in
+//                                editableEntry.latitude = newCoordinates.latitude
+//                                editableEntry.longitude = newCoordinates.longitude
+//                                viewModel.fetchWeatherData(latitude: newCoordinates.latitude, longitude: newCoordinates.longitude) { weatherDescription in
+//                                    editableEntry.weather = weatherDescription
+//                                }
+//                            }
+//                        }
+//                    
+//                } else {
+//                    Text("Place Name: \(entry.placeName ?? "Not Available")")
+//                        .font(.subheadline)
+//                        .foregroundColor(.gray)
+//                }
+
+
+
+                
                 
                 // Weather
+//                if showingEditView {
+//                    TextField("Weather", text: Binding<String>(
+//                        get: { editableEntry.weather ?? "" },
+//                        set: { editableEntry.weather = $0 }
+//                    ))
+//                    .placeholder(editableEntry.weather?.isEmpty ?? true) {
+//                        Text("How's the weather?").foregroundColor(.gray)
+//                    }
+//                } else {
+//                    Text("Weather: \(entry.weather ?? "Unknown")")
+//                        .font(.subheadline)
+//                        .foregroundColor(.gray)
+//                }
                 if showingEditView {
-                    TextField("Weather", text: Binding<String>(
-                        get: { editableEntry.weather ?? "" },
-                        set: { editableEntry.weather = $0 }
-                    ))
+                    TextField("Weather", text: $editableEntry.weather)
+                        .font(.subheadline)
                 } else {
-                    Text("Weather: \(entry.weather ?? "Unknown")")
+                    Text("Weather: \(entry.weather)")
                         .font(.subheadline)
                         .foregroundColor(.gray)
                 }
 
-                
-                //                Text("Weather: \(entry.weather ?? "Unknown")")
-                //                    .font(.subheadline)
-                //                    .foregroundColor(.gray)
+
                 
                 // Description
                 if showingEditView {
                     TextEditor(text: $editableEntry.description)
                         .font(.body) 
                         .frame(minHeight: 100)
+                        .placeholder(editableEntry.description.isEmpty) {
+                                Text("Enter a description").foregroundColor(.gray)
+                            }
                 } else {
                     Text(entry.description)
                         .font(.body)
                 }
 
-                
-                
-                
-                
-                //                Text(entry.description)
-                //                    .font(.body)
-                
                 // Photos
-                if let photosData = entry.photos {
-                    ForEach(photosData.indices, id: \.self) { index in
-                        if let uiImage = UIImage(data: photosData[index]) {
-                            Image(uiImage: uiImage)
-                                .resizable()
-                                .scaledToFit()
-                                .frame(height: 200)
+                if showingEditView {
+                    PhotosPicker(
+                        "Select images",
+                        selection: $selectedPhotosPickerItems,
+                        matching: .images
+                    )
+                    .onChange(of: selectedPhotosPickerItems) { newItems, _ in
+                        Task {
+                            for item in newItems {
+                                if let data = try? await item.loadTransferable(type: Data.self) {
+                                    editableEntry.photos?.append(data)
+                                }
+                            }
                         }
                     }
+                    
+                    // Display existing photos with a delete option
+                    // Display existing photos with a delete option
+                    if let photos = editableEntry.photos {
+                        ForEach(photos.indices, id: \.self) { index in
+                            if let uiImage = UIImage(data: photos[index]) {
+                                HStack {
+                                    Image(uiImage: uiImage)
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(height: 200)
+                                    
+                                    Spacer()
+                                    
+                                    Button(action: {
+                                        editableEntry.photos?.remove(at: index)
+                                    }) {
+                                        Image(systemName: "trash")
+                                            .foregroundColor(.red)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    
                 } else {
-                    Image(systemName: "photo")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(height: 200)
+                    // Display photos in read-only mode
+                    if let photosData = entry.photos {
+                        ForEach(photosData.indices, id: \.self) { index in
+                            if let uiImage = UIImage(data: photosData[index]) {
+                                Image(uiImage: uiImage)
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(height: 200)
+                            }
+                        }
+                    }
                 }
-                
-                //            Will add more UI elements as needed
-                //                Button("Edit") {
-                //                            showingEditView = true
-                //                        }
-                //                .sheet(isPresented: $showingEditView) {
-                //                    JournalEntryEditView(journalEntry: $entry,  saveAction: {
-                //                        viewModel.updateJournalEntry(entry)
-                //                        showingEditView = false
-                //                    })
-                //                }
-                
-                
-                
             }
             .padding()
         }
@@ -175,13 +283,26 @@ struct JournalDetailView: View {
     }
 }
 
-//extension Optional where Wrapped == String {
-//    mutating func nilCoalescingBinding() -> Binding<String> {
-//        Binding<String>(
-//            get: { self ?? "" },
-//            set: { newValue in
-//                self = newValue.isEmpty ? nil : newValue
-//            }
-//        )
-//    }
-//}
+extension View {
+    @ViewBuilder
+    func placeholder<Content: View>(_ show: Bool, alignment: Alignment = .leading, @ViewBuilder placeholder: @escaping () -> Content) -> some View {
+        ZStack(alignment: alignment) {
+            if show {
+                placeholder()
+            }
+            self
+        }
+    }
+}
+
+
+extension Optional where Wrapped == String {
+    func nilCoalescingBinding(update: @escaping (String?) -> Void) -> Binding<String> {
+        Binding<String>(
+            get: { self ?? "" },
+            set: { newValue in
+                update(newValue.isEmpty ? nil : newValue)
+            }
+        )
+    }
+}

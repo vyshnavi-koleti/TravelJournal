@@ -5,47 +5,110 @@ import PhotosUI
 import CoreLocation
 import CoreLocationUI
 import MapKit
+import WeatherKit
+
 
 struct JournalEntry: Identifiable, Codable {
     var id = UUID()
     var title: String
     var description: String
     var date: Date
-    var weather: String?
+    var weather: String
     var photos: [Data]?
     var latitude: Double?
     var longitude: Double?
     var placeName: String?
-    
-//    var location: CLLocation?
-    
 
-//    var recordID: CKRecord.ID?
+    enum CodingKeys: String, CodingKey {
+        case id, title, description, date, weather, photos, latitude, longitude, placeName
+    }
 
-
-    
-    // Initializing with default values
+    // Custom initializer if needed
     init(title: String = "",
          description: String = "",
          date: Date = Date(),
-         weather: String? = nil,
+         weather: String = "",
          photos: [Data]? = nil,
-         location: CLLocation? = nil,
-         placeName: String? = nil)
-//        recordID: CKRecord.ID? = nil)
-    //         location: CLLocation? = nil,
-    {
+         latitude: Double? = nil,
+         longitude: Double? = nil,
+         placeName: String? = nil) {
         self.title = title
         self.description = description
         self.date = date
         self.weather = weather
         self.photos = photos
-        self.latitude = location?.coordinate.latitude
-        self.longitude = location?.coordinate.longitude
+        self.latitude = latitude
+        self.longitude = longitude
         self.placeName = placeName
-//        self.recordID = recordID
-//        self.location = location
+    }
 
+    // Custom encoding and decoding to handle optional values
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        id = try container.decode(UUID.self, forKey: .id)
+        title = try container.decode(String.self, forKey: .title)
+        description = try container.decode(String.self, forKey: .description)
+        date = try container.decode(Date.self, forKey: .date)
+        weather = try container.decode(String.self, forKey: .weather)
+        photos = try container.decodeIfPresent([Data].self, forKey: .photos)
+        latitude = try container.decodeIfPresent(Double.self, forKey: .latitude)
+        longitude = try container.decodeIfPresent(Double.self, forKey: .longitude)
+        placeName = try container.decodeIfPresent(String.self, forKey: .placeName)
+    }
+
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(id, forKey: .id)
+        try container.encode(title, forKey: .title)
+        try container.encode(description, forKey: .description)
+        try container.encode(date, forKey: .date)
+        try container.encode(weather, forKey: .weather)
+        try container.encodeIfPresent(photos, forKey: .photos)
+        try container.encodeIfPresent(latitude, forKey: .latitude)
+        try container.encodeIfPresent(longitude, forKey: .longitude)
+        try container.encodeIfPresent(placeName, forKey: .placeName)
     }
 }
 
+
+
+//struct JournalEntry: Identifiable, Codable {
+//    var id = UUID()
+//    var title: String
+//    var description: String
+//    var date: Date
+//    var weather: String
+//    var photos: [Data]?
+//    var latitude: Double?
+//    var longitude: Double?
+//    var location: CLLocation
+//    var placeName: String?
+////    var recordID: CKRecord.ID?
+//
+//
+//    
+//    // Initializing with default values
+//    init(title: String = "",
+//         description: String = "",
+//         date: Date = Date(),
+//         weather: String = "",
+//         photos: [Data]? = nil,
+//         location: CLLocation? = nil,
+//         placeName: String? = nil)
+////        recordID: CKRecord.ID? = nil)
+//    //         location: CLLocation? = nil,
+//    {
+//        self.title = title
+//        self.description = description
+//        self.date = date
+//        self.weather = weather
+//        self.photos = photos
+//        self.latitude = location?.coordinate.latitude
+//        self.longitude = location?.coordinate.longitude
+//        self.placeName = placeName
+////        self.recordID = recordID
+////        self.location = location
+//
+//    }
+//}
+//
