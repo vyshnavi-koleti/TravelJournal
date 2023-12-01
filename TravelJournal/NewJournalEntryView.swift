@@ -90,14 +90,7 @@ struct NewJournalEntryView: View {
                 Text("Current Location: Not Available")
             }
             TextField("Place Name", text: $viewModel.placeName)
-//            Button("Update Weather") {
-//                if !viewModel.placeName.isEmpty {
-//                    viewModel.fetchWeatherForPlaceName(viewModel.placeName)
-//                } else {
-//                    // Handle the case where place name is empty
-//                    print("Place name is empty")
-//                }
-//            }
+
             Button("Update Weather") {
                 if !viewModel.placeName.isEmpty {
                     viewModel.fetchWeatherForPlaceName(viewModel.placeName) { fetchedWeather in
@@ -112,33 +105,6 @@ struct NewJournalEntryView: View {
     }
 
     
-    
-//    not working
-    
-//    private var locationSection: some View {
-//        Section(header: Text("Location")) {
-//            if let currentLocation = viewModel.currentLocation {
-//                Text("Current Location: \(currentLocation.coordinate.latitude), \(currentLocation.coordinate.longitude)")
-//            } else {
-//                Text("Current Location: Not Available")
-//            }
-//            TextField("Place Name", text: $placeName)
-//                .onChange(of: placeName) { newValue, _ in
-//                    viewModel.geocodeAddressString(newValue) { _ in }
-//                }
-//            Button("Update Weather") {
-//                updateWeather()
-//            }
-//        }
-//    }
-    
-    
-//    not working
-//    private var weatherField: some View {
-//        TextField("Weather", text: $viewModel.weatherDescription)
-//            .keyboardType(.default)
-//    }
-
 
 
     private var weatherField: some View {
@@ -209,21 +175,6 @@ struct NewJournalEntryView: View {
     
     
     
-    
-//    not working
-//    private func updateWeather() {
-//        if let currentLocation = viewModel.currentLocation {
-//            print("Updating weather...")
-//            viewModel.fetchWeatherData(latitude: currentLocation.coordinate.latitude, longitude: currentLocation.coordinate.longitude) { weatherDescription in
-//                DispatchQueue.main.async {
-//                    self.weather = weatherDescription
-//                    print("Weather updated: \(weatherDescription)")
-//                }
-//            }
-//        } else {
-//            print("Current location is not available.")
-//        }
-//    }
 
 
     

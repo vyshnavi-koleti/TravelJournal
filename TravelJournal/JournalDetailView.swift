@@ -94,35 +94,6 @@ struct JournalDetailView: View {
                         .foregroundColor(.gray)
                 }
 
-                
-                
-                //                if let latitude = entry.latitude, let longitude = entry.longitude {
-                //                    Text("Location: \(latitude), \(longitude)")
-                //                        .font(.subheadline)
-                //                        .foregroundColor(.gray)
-                //                } else {
-                //                    Text("Location: Not Available")
-                //                        .font(.subheadline)
-                //                        .foregroundColor(.gray)
-                //                }
-                
-                
-
-                // Place Name
-//                if showingEditView {
-//                    TextField("Place Name", text: Binding<String>(
-//                        get: { editableEntry.placeName ?? "" },
-//                        set: { editableEntry.placeName = $0.isEmpty ? nil : $0 }
-//                    ))
-//                    .placeholder(editableEntry.placeName?.isEmpty ?? true) {
-//                        Text("Enter Place Name").foregroundColor(.gray)
-//                    }
-//                    .font(.subheadline)
-//                } else {
-//                    Text("Place Name: \(entry.placeName ?? "Not Available")")
-//                        .font(.subheadline)
-//                        .foregroundColor(.gray)
-//                }
                 // Place Name
                 if showingEditView {
                     TextField("Place Name", text: Binding<String>(
@@ -175,19 +146,6 @@ struct JournalDetailView: View {
                 
                 
                 // Weather
-//                if showingEditView {
-//                    TextField("Weather", text: Binding<String>(
-//                        get: { editableEntry.weather ?? "" },
-//                        set: { editableEntry.weather = $0 }
-//                    ))
-//                    .placeholder(editableEntry.weather?.isEmpty ?? true) {
-//                        Text("How's the weather?").foregroundColor(.gray)
-//                    }
-//                } else {
-//                    Text("Weather: \(entry.weather ?? "Unknown")")
-//                        .font(.subheadline)
-//                        .foregroundColor(.gray)
-//                }
                 if showingEditView {
                     TextField("Weather", text: $editableEntry.weather)
                         .font(.subheadline)

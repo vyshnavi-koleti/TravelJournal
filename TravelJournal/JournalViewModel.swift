@@ -107,34 +107,12 @@ class JournalViewModel: ObservableObject {
         }
     }
 
-//    func geocodeAddressString(_ addressString: String, completion: @escaping (CLLocationCoordinate2D) -> Void) {
-//        geocoder.geocodeAddressString(addressString) { [weak self] placemarks, error in
-//            if let error = error {
-//                print("Geocoding error: \(error.localizedDescription)")
-//                return
-//            }
-//            if let placemark = placemarks?.first, let location = placemark.location {
-//                DispatchQueue.main.async {
-//                    self?.currentLocation = location
-//                }
-//                completion(location.coordinate)
-//            }
-//        }
-//    }
-    
+
 
     
     
     
-//    func fetchWeatherForPlaceName(_ placeName: String) {
-//        geocodeAddressString(placeName) { [weak self] coordinates in
-//            self?.fetchWeatherData(latitude: coordinates.latitude, longitude: coordinates.longitude) { weatherDescription in
-//                DispatchQueue.main.async {
-//                    self?.weatherDescription = weatherDescription
-//                }
-//            }
-//        }
-//    }
+
 
     func fetchWeatherForPlaceName(_ placeName: String, completion: @escaping (String) -> Void) {
         geocodeAddressString(placeName) { [weak self] coordinates in

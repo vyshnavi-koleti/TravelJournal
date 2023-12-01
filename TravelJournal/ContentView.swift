@@ -43,13 +43,6 @@ struct ContentView: View {
                                 Text(entry.title)
                             }
                             .swipeActions {
-//                                // Edit action
-//                                Button {
-//                                    // code to handle edit action
-//                                } label: {
-//                                    Label("Edit", systemImage: "pencil")
-//                                }
-//                                .tint(.blue)
                                 
                                 // Delete action
                                 Button(role: .destructive) {
