@@ -23,7 +23,7 @@ struct JournalEntry: Identifiable, Codable {
         case id, title, description, date, weather, photos, latitude, longitude, placeName
     }
 
-    // Custom initializer if needed
+    // Custom initializer 
     init(title: String = "",
          description: String = "",
          date: Date = Date(),
@@ -71,44 +71,3 @@ struct JournalEntry: Identifiable, Codable {
 }
 
 
-
-//struct JournalEntry: Identifiable, Codable {
-//    var id = UUID()
-//    var title: String
-//    var description: String
-//    var date: Date
-//    var weather: String
-//    var photos: [Data]?
-//    var latitude: Double?
-//    var longitude: Double?
-//    var location: CLLocation
-//    var placeName: String?
-////    var recordID: CKRecord.ID?
-//
-//
-//    
-//    // Initializing with default values
-//    init(title: String = "",
-//         description: String = "",
-//         date: Date = Date(),
-//         weather: String = "",
-//         photos: [Data]? = nil,
-//         location: CLLocation? = nil,
-//         placeName: String? = nil)
-////        recordID: CKRecord.ID? = nil)
-//    //         location: CLLocation? = nil,
-//    {
-//        self.title = title
-//        self.description = description
-//        self.date = date
-//        self.weather = weather
-//        self.photos = photos
-//        self.latitude = location?.coordinate.latitude
-//        self.longitude = location?.coordinate.longitude
-//        self.placeName = placeName
-////        self.recordID = recordID
-////        self.location = location
-//
-//    }
-//}
-//

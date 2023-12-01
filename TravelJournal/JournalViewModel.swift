@@ -5,7 +5,7 @@ import PhotosUI
 import CoreLocation
 import CoreLocationUI
 import MapKit
-import WeatherKit
+
 
 
 
@@ -17,8 +17,7 @@ class JournalViewModel: ObservableObject {
     @Published var placeName: String = ""
     private let geocoder = CLGeocoder()
     
-//    @Published var selectedCoordinate: CLLocationCoordinate2D = CLLocationCoordinate2D()
-    @Published var selectedCoordinate: EquatableCoordinate
+
     @Published var currentLocation: CLLocation?
     
     private var locationManager = LocationManager()
@@ -30,27 +29,19 @@ class JournalViewModel: ObservableObject {
 
     
     
-//    init() {
-//        locationUpdateCancellable = locationManager.$location.sink { [weak self] newLocation in
-//            if let location = newLocation {
-//                self?.selectedCoordinate = location.coordinate
-//                self?.currentLocation = location
-//                self?.getPlaceName(from: location)
-//                
-//            }
-//        }
-//    }
     init() {
-        selectedCoordinate = EquatableCoordinate(coordinate: locationManager.location?.coordinate ?? CLLocationCoordinate2D())
-
         locationUpdateCancellable = locationManager.$location.sink { [weak self] newLocation in
-            if let location = newLocation, let self = self {
-                self.selectedCoordinate = EquatableCoordinate(coordinate: location.coordinate)
-                self.currentLocation = location
-                self.getPlaceName(from: location)
+            if let location = newLocation {
+                self?.currentLocation = location
+              self?.getPlaceName(from: location) { placeName in
+                    DispatchQueue.main.async {
+                        self?.placeName = placeName
+                    }
+                }
             }
         }
     }
+
 
     
     //    Function to load entriess from local storage
@@ -84,60 +75,78 @@ class JournalViewModel: ObservableObject {
         }
     }
     
-    //    function for place name
-    func getPlaceName(from location: CLLocation) {
-        geocoder.reverseGeocodeLocation(location) { [weak self] (placemarks, error) in
-            guard let self = self else { return }
-            
+    
+    
+    func getPlaceName(from location: CLLocation, completion: @escaping (String) -> Void) {
+        geocoder.reverseGeocodeLocation(location) { placemarks, error in
             if let error = error {
                 print(error.localizedDescription)
-                self.placeName = "Unknown Place"
+                completion("Unknown Place")
                 return
             }
-            
             if let placemark = placemarks?.first {
-                self.placeName = placemark.locality ?? "Unknown Place"
+                let placeName = placemark.locality ?? "Unknown Place"
+                completion(placeName)
             }
         }
     }
+
+
     
     
-    //     Function to perform forward geocoding
-    //            func geocodeAddressString(_ addressString: String) {
-    //                geocoder.geocodeAddressString(addressString) { [weak self] (placemarks, error) in
-    //                    guard let self = self else { return }
-    //
-    //                    if let error = error {
-    //                        print("Geocoding error: \(error.localizedDescription)")
-    //                        return
-    //                    }
-    //
-    //                    if let placemark = placemarks?.first, let location = placemark.location {
-    //                        self.selectedCoordinate = location.coordinate
-    //                    }
-    //                }
-    //            }
-    //
+//         Function to perform forward geocoding - working
     func geocodeAddressString(_ addressString: String, completion: @escaping (CLLocationCoordinate2D) -> Void) {
-        geocoder.geocodeAddressString(addressString) { [weak self] (placemarks, error) in
-            guard self != nil else { return }
-            
+        geocoder.geocodeAddressString(addressString) { placemarks, error in
             if let error = error {
                 print("Geocoding error: \(error.localizedDescription)")
                 return
             }
-            
             if let placemark = placemarks?.first, let location = placemark.location {
                 completion(location.coordinate)
-                _ = CLLocation(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
-                self?.fetchWeatherData(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude) { weatherDescription in
-                    
-                    print(weatherDescription)
+            }
+        }
+    }
+
+//    func geocodeAddressString(_ addressString: String, completion: @escaping (CLLocationCoordinate2D) -> Void) {
+//        geocoder.geocodeAddressString(addressString) { [weak self] placemarks, error in
+//            if let error = error {
+//                print("Geocoding error: \(error.localizedDescription)")
+//                return
+//            }
+//            if let placemark = placemarks?.first, let location = placemark.location {
+//                DispatchQueue.main.async {
+//                    self?.currentLocation = location
+//                }
+//                completion(location.coordinate)
+//            }
+//        }
+//    }
+    
+
+    
+    
+    
+//    func fetchWeatherForPlaceName(_ placeName: String) {
+//        geocodeAddressString(placeName) { [weak self] coordinates in
+//            self?.fetchWeatherData(latitude: coordinates.latitude, longitude: coordinates.longitude) { weatherDescription in
+//                DispatchQueue.main.async {
+//                    self?.weatherDescription = weatherDescription
+//                }
+//            }
+//        }
+//    }
+
+    func fetchWeatherForPlaceName(_ placeName: String, completion: @escaping (String) -> Void) {
+        geocodeAddressString(placeName) { [weak self] coordinates in
+            self?.fetchWeatherData(latitude: coordinates.latitude, longitude: coordinates.longitude) { weatherDescription in
+                DispatchQueue.main.async {
+                    completion(weatherDescription)
                 }
             }
         }
     }
-    
+
+   
     
     
     //   function to get the documents directory
@@ -148,31 +157,12 @@ class JournalViewModel: ObservableObject {
     
     
     
-//    func addJournalEntry(_ entry: JournalEntry) {
-//        journalEntries.append(entry)
-//        saveJournalEntries()
-//    }
-    
-    func addJournalEntry(_ entry: JournalEntry, at location: CLLocation) {
-//        updateWeather(for: location) { weatherDescription in
-//            var newEntry = entry
-//            newEntry.weather = weatherDescription
-//            self.journalEntries.append(newEntry)
-//            self.saveJournalEntries()
-//        }
-        if let latitude = entry.latitude, let longitude = entry.longitude {
-                let location = CLLocation(latitude: latitude, longitude: longitude)
-            updateWeather(for: location) { weatherDescription in
-                var newEntry = entry
-                newEntry.weather = weatherDescription
-                self.journalEntries.append(newEntry)
-                self.saveJournalEntries()
-            }
+    func addJournalEntry(_ entry: JournalEntry) {
+        journalEntries.append(entry)
+        saveJournalEntries()
     }
-        else {
-                print("location data unavailable")
-            }
-        }
+    
+
     
     func updateJournalEntry(_ updatedEntry: JournalEntry) {
         if let index = journalEntries.firstIndex(where: { $0.id == updatedEntry.id }) {
@@ -185,31 +175,45 @@ class JournalViewModel: ObservableObject {
     
     //weather functionalities
     func fetchWeatherData(latitude: Double, longitude: Double, completion: @escaping (String) -> Void) {
-        let apiKey = "35FDfjmVfmPV83SFEf1TgURVDH3WFjh9"
         let urlString = "https://api.tomorrow.io/v4/weather/realtime?location=\(latitude),\(longitude)&apikey=\(apiKey)"
-        
         guard let url = URL(string: urlString) else { return }
 
-        URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
+        URLSession.shared.dataTask(with: url) { data, response, error in
             guard let data = data, error == nil else {
                 print("Error fetching weather data: \(error?.localizedDescription ?? "Unknown error")")
+                completion("Error fetching weather data")
                 return
             }
 
             do {
-                    let decodedResponse = try JSONDecoder().decode(WeatherResponse.self, from: data)
-                    DispatchQueue.main.async {
-                        if let weatherCode = decodedResponse.data.timelines.first?.intervals.first?.values.weatherCode {
-                            let weatherDesc = self?.decodeWeatherCode(weatherCode)
-//                            self?.weatherDescription = "Weather: \(weatherDesc ?? "Unknown")"
-                            completion("Weather: \(weatherDesc ?? "Unknown")")
-                        }
-                    }
-                } catch {
-                    print("Failed to decode weather data: \(error)")
+                let decodedResponse = try JSONDecoder().decode(WeatherResponse.self, from: data)
+                DispatchQueue.main.async {
+                    let weatherDesc = self.decodeWeatherCode(decodedResponse.data.values.weatherCode)
+                    completion(weatherDesc)
                 }
+            } catch {
+                print("Failed to decode weather data: \(error)")
+                completion("Decoding error")
+            }
         }.resume()
     }
+    
+    
+    func updateLocationAndWeather(forPlaceName placeName: String) {
+        geocodeAddressString(placeName) { [weak self] newCoordinates in
+            let newLocation = CLLocation(latitude: newCoordinates.latitude, longitude: newCoordinates.longitude)
+            self?.currentLocation = newLocation
+            self?.fetchWeatherData(latitude: newCoordinates.latitude, longitude: newCoordinates.longitude) { weatherDescription in
+                DispatchQueue.main.async {
+                    self?.weatherDescription = weatherDescription
+                }
+            }
+        }
+    }
+
+
+
+
     
     func updateWeather(for location: CLLocation, completion: @escaping (String) -> Void) {
         let latitude = location.coordinate.latitude
@@ -253,39 +257,26 @@ class JournalViewModel: ObservableObject {
 }
 
 
-
 struct WeatherResponse: Codable {
-    let data: DataClass
+    let data: WeatherData
+    let location: Location
 }
 
-struct DataClass: Codable {
-    let timelines: [Timeline]
-}
-
-struct Timeline: Codable {
-    let intervals: [Interval]
-}
-
-struct Interval: Codable {
+struct WeatherData: Codable {
+    let time: String
     let values: WeatherValues
 }
 
 struct WeatherValues: Codable {
     let weatherCode: Int
+    
+}
+
+struct Location: Codable {
+    let lat: Double
+    let lon: Double
+
 }
 
 
 
-
-//struct WeatherResponse: Codable {
-//    let main: Main
-//    let weather: [Weather]
-//}
-//
-//struct Main: Codable {
-//    let temp: Double
-//}
-//
-//struct Weather: Codable {
-//    let main: String
-//}
