@@ -24,6 +24,10 @@
 		CC2928302AEAE53B00FACB64 /* TravelJournalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC29282F2AEAE53B00FACB64 /* TravelJournalTests.swift */; };
 		CC29283A2AEAE53B00FACB64 /* TravelJournalUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC2928392AEAE53B00FACB64 /* TravelJournalUITests.swift */; };
 		CC29283C2AEAE53B00FACB64 /* TravelJournalUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC29283B2AEAE53B00FACB64 /* TravelJournalUITestsLaunchTests.swift */; };
+		CC930CE52B225A5D0070F880 /* ItineraryModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC930CE42B225A5D0070F880 /* ItineraryModels.swift */; };
+		CC930CE72B225A7F0070F880 /* ItineraryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC930CE62B225A7F0070F880 /* ItineraryViewModel.swift */; };
+		CC930CE92B225AE20070F880 /* ItineraryListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC930CE82B225AE20070F880 /* ItineraryListView.swift */; };
+		CC930CEB2B225B110070F880 /* ItineraryItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC930CEA2B225B110070F880 /* ItineraryItemView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,6 +70,10 @@
 		CC2928352AEAE53B00FACB64 /* TravelJournalUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TravelJournalUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CC2928392AEAE53B00FACB64 /* TravelJournalUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelJournalUITests.swift; sourceTree = "<group>"; };
 		CC29283B2AEAE53B00FACB64 /* TravelJournalUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelJournalUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		CC930CE42B225A5D0070F880 /* ItineraryModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItineraryModels.swift; sourceTree = "<group>"; };
+		CC930CE62B225A7F0070F880 /* ItineraryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItineraryViewModel.swift; sourceTree = "<group>"; };
+		CC930CE82B225AE20070F880 /* ItineraryListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItineraryListView.swift; sourceTree = "<group>"; };
+		CC930CEA2B225B110070F880 /* ItineraryItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItineraryItemView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,6 +134,10 @@
 				CC04EA3A2AFD919E00E21303 /* LocationManager.swift */,
 				CC04EA362AFD59B900E21303 /* Utilities.swift */,
 				CC04EA2C2AF4328800E21303 /* journalEntries.json */,
+				CC930CE42B225A5D0070F880 /* ItineraryModels.swift */,
+				CC930CEA2B225B110070F880 /* ItineraryItemView.swift */,
+				CC930CE62B225A7F0070F880 /* ItineraryViewModel.swift */,
+				CC930CE82B225AE20070F880 /* ItineraryListView.swift */,
 				CC29281E2AEAE53A00FACB64 /* Item.swift */,
 				CC04EA2A2AF42D1200E21303 /* NewFile.swift */,
 				CC2928202AEAE53B00FACB64 /* Assets.xcassets */,
@@ -292,17 +304,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CC930CE92B225AE20070F880 /* ItineraryListView.swift in Sources */,
 				CC04EA312AFD575400E21303 /* JournalViewModel.swift in Sources */,
 				CC04EA3D2AFD9C8500E21303 /* MapView.swift in Sources */,
 				CC29281D2AEAE53A00FACB64 /* ContentView.swift in Sources */,
 				CC04EA332AFD586F00E21303 /* JournalDetailView.swift in Sources */,
 				CC04EA3B2AFD919E00E21303 /* LocationManager.swift in Sources */,
 				CC29281F2AEAE53A00FACB64 /* Item.swift in Sources */,
+				CC930CEB2B225B110070F880 /* ItineraryItemView.swift in Sources */,
 				CC04EA2F2AFD56F300E21303 /* JournalEntry.swift in Sources */,
 				CC04EA2B2AF42D1200E21303 /* NewFile.swift in Sources */,
 				CC04EA372AFD59B900E21303 /* Utilities.swift in Sources */,
 				CC04EA352AFD590200E21303 /* NewJournalEntryView.swift in Sources */,
 				CC29281B2AEAE53A00FACB64 /* TravelJournalApp.swift in Sources */,
+				CC930CE72B225A7F0070F880 /* ItineraryViewModel.swift in Sources */,
+				CC930CE52B225A5D0070F880 /* ItineraryModels.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

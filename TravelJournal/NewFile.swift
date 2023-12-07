@@ -101,3 +101,61 @@
 //    publicDatabase.add(operation)
 //}
 //
+
+
+
+
+
+
+
+//import SwiftUI
+//
+//struct ItineraryItemView: View {
+//    var item: ItineraryItem
+//
+//    var body: some View {
+//        ScrollView {
+//            VStack(alignment: .leading, spacing: 10) {
+//                Text(item.destination)
+//                    .font(.title)
+//                    .fontWeight(.bold)
+//
+//                HStack {
+//                    Text("Dates:")
+//                        .fontWeight(.semibold)
+//                    Text("\(item.startDate, formatter: itemFormatter) - \(item.endDate, formatter: itemFormatter)")
+//                }
+//
+//                Text("Activities")
+//                    .font(.headline)
+//                    .padding(.top)
+//
+//                ForEach(item.activities) { activity in
+//                    VStack(alignment: .leading) {
+//                        Text(activity.title)
+//                            .fontWeight(.semibold)
+//                        Text(activity.description)
+//                        Text("Time: \(activity.time, formatter: itemFormatter)")
+//                    }
+//                    .padding(.bottom)
+//                }
+//
+//                if !item.notes.isEmpty {
+//                    Text("Notes")
+//                        .font(.headline)
+//                        .padding(.top)
+//                    Text(item.notes)
+//                }
+//            }
+//            .padding()
+//        }
+//        .navigationTitle("Itinerary Details")
+//    }
+//
+//    private var itemFormatter: DateFormatter {
+//        let formatter = DateFormatter()
+//        formatter.dateStyle = .medium
+//        formatter.timeStyle = .short
+//        return formatter
+//    }
+//}

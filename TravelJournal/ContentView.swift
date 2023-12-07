@@ -68,13 +68,21 @@ struct ContentView: View {
                 Label("Travel Journals", systemImage: "book.fill")
             }
             .tag(0)
+            
+            
+            ItineraryListView()
+                    .tabItem {
+                        Label("Itinerary", systemImage: "map.fill")
+                    }
+                    .tag(1)
 
             // Profile Tab - ti be replaced later with actual profile view later            
             ProfileView()
                 .tabItem {
                     Label("Profile", systemImage: "person.fill")
                 }
-                .tag(1)
+                .tag(2)
+            
         }
         .accentColor(Color(hex: "#355D48"))
     }
