@@ -5,7 +5,13 @@ import PhotosUI
 import CoreLocation
 import CoreLocationUI
 import MapKit
-import WeatherKit
+
+
+enum AlertType {
+    case missingInfo
+    case emptyPlaceName
+    case none
+}
 
 struct NewJournalEntryView: View {
     @ObservedObject var viewModel: JournalViewModel
@@ -19,7 +25,8 @@ struct NewJournalEntryView: View {
     @State private var weather = ""
     @State private var selectedItems: [PhotosPickerItem] = []
     @State private var uiImages = [Data]()
-//    @State private var placeName: String = ""
+    @State private var alertType: AlertType = .none
+    
 
     @Environment(\.presentationMode) var presentationMode
 
@@ -37,13 +44,29 @@ struct NewJournalEntryView: View {
             .navigationBarItems(leading: cancelButton, trailing: saveButton)
         }
         .accentColor(Color(hex: "#355D48"))
-        .alert(isPresented: $showAlert) {
-            Alert(
-                title: Text("Missing Information"),
-                message: Text("Both title and description are required to save the journal entry."),
-                dismissButton: .default(Text("OK"))
-            )
+        .alert(isPresented: Binding<Bool>(
+            get: { alertType != .none },
+            set: { if !$0 { alertType = .none } }
+        )) {
+            switch alertType {
+            case .missingInfo:
+                return Alert(
+                    title: Text("Missing Information"),
+                    message: Text("Both title and description are required to save the journal entry."),
+                    dismissButton: .default(Text("OK"))
+                )
+            case .emptyPlaceName:
+                return Alert(
+                    title: Text("Missing Place Name"),
+                    message: Text("Please enter a place name to update the location and weather."),
+                    dismissButton: .default(Text("OK"))
+                )
+            default:
+                return Alert(title: Text("Error"), message: Text("An unexpected error occurred."))
+            }
         }
+        
+        
     }
 
     private var titleField: some View {
@@ -82,6 +105,28 @@ struct NewJournalEntryView: View {
 //        }
 //    }
     
+//    private var locationSection: some View {
+//        Section(header: Text("Location")) {
+//            if let currentLocation = viewModel.currentLocation {
+//                Text("Current Location: \(currentLocation.coordinate.latitude), \(currentLocation.coordinate.longitude)")
+//            } else {
+//                Text("Current Location: Not Available")
+//            }
+//            TextField("Place Name", text: $viewModel.placeName)
+//
+//            Button("Update Weather") {
+//                if !viewModel.placeName.isEmpty {
+//                    viewModel.fetchWeatherForPlaceName(viewModel.placeName) { fetchedWeather in
+//                        self.weather = fetchedWeather
+//                    }
+//                } else {
+//                    print("Place name is empty")
+//                }
+//            }
+//
+//        }
+//    }
+
     private var locationSection: some View {
         Section(header: Text("Location")) {
             if let currentLocation = viewModel.currentLocation {
@@ -91,16 +136,20 @@ struct NewJournalEntryView: View {
             }
             TextField("Place Name", text: $viewModel.placeName)
 
-            Button("Update Weather") {
+            Button("Update Location and Weather") {
                 if !viewModel.placeName.isEmpty {
-                    viewModel.fetchWeatherForPlaceName(viewModel.placeName) { fetchedWeather in
-                        self.weather = fetchedWeather
+                    viewModel.geocodeAddressString(viewModel.placeName) { newCoordinates in
+                        viewModel.currentLocation = CLLocation(latitude: newCoordinates.latitude, longitude: newCoordinates.longitude)
+                        viewModel.fetchWeatherData(latitude: newCoordinates.latitude, longitude: newCoordinates.longitude) { fetchedWeather in
+                            self.weather = fetchedWeather
+                        }
                     }
                 } else {
-                    print("Place name is empty")
+//                    print("Place name is empty")
+                        alertType = .emptyPlaceName
+                    
                 }
             }
-
         }
     }
 
@@ -142,7 +191,7 @@ struct NewJournalEntryView: View {
             if !title.isEmpty && !description.isEmpty {
                 saveEntry()
             } else {
-                showAlert = true
+                alertType = .missingInfo
             }
         }
     }

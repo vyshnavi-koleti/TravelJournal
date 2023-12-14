@@ -16,6 +16,7 @@ struct JournalDetailView: View {
     @State private var selectedPhotosPickerItems: [PhotosPickerItem] = []
     @State private var placeName: String = ""
     @State private var isGeocoding = false
+    @State private var inputPlaceName: String = ""
     @State private var showingShareSheet = false
 
 
@@ -27,13 +28,11 @@ struct JournalDetailView: View {
         self.viewModel = viewModel
         self.onSave = onSave
         let initialEntry = entry.wrappedValue
-//        initialEntry.weather = initialEntry.weather ?? "Default Weather Value"
         self._editableEntry = State(initialValue: initialEntry)
         if editableEntry.photos == nil {
             editableEntry.photos = []
         }
-//        print("Initial place name: \(initialEntry.placeName ?? "nil")")
-//        print("Initial description: \(initialEntry.description)") // Debugging line
+        self._inputPlaceName = State(initialValue: initialEntry.placeName ?? "")
     }
 
     private func shareEntry() {
@@ -98,7 +97,7 @@ struct JournalDetailView: View {
                         .foregroundColor(.gray)
                 }
 
-                // Place Name
+//                 Place Name
                 if showingEditView {
                     TextField("Place Name", text: Binding<String>(
                         get: { editableEntry.placeName ?? "" },
@@ -125,7 +124,34 @@ struct JournalDetailView: View {
                         .font(.subheadline)
                         .foregroundColor(.gray)
                 }
-             
+                
+//                if showingEditView {
+//                    HStack {
+//                        TextField("Place Name", text: $inputPlaceName)
+//                            .placeholder(inputPlaceName.isEmpty) {
+//                                Text("Enter Place Name").foregroundColor(.gray)
+//                            }
+//                            .font(.subheadline)
+//                        
+//                        Button("Update") {
+//                            editableEntry.placeName = inputPlaceName
+//                            if let placeName = editableEntry.placeName {
+//                                viewModel.geocodeAddressString(placeName) { newCoordinates in
+//                                    editableEntry.latitude = newCoordinates.latitude
+//                                    editableEntry.longitude = newCoordinates.longitude
+//                                    viewModel.fetchWeatherData(latitude: newCoordinates.latitude, longitude: newCoordinates.longitude) { weatherDescription in
+//                                        self.editableEntry.weather = weatherDescription
+//                                    }
+//                                }
+//                            }
+//                        }
+//                    }
+//                } else {
+//                    Text("Place Name: \(entry.placeName ?? "Not Available")")
+//                        .font(.subheadline)
+//                        .foregroundColor(.gray)
+//                }
+
                 // Weather
                 if showingEditView {
                     TextField("Weather", text: $editableEntry.weather)
@@ -213,8 +239,10 @@ struct JournalDetailView: View {
         .navigationBarTitle("Journal Entry", displayMode: .inline)
         .navigationBarItems(trailing: HStack {
             // Share button
-            Button(action: shareEntry) {
-                Image(systemName: "square.and.arrow.up")
+            if !showingEditView {
+                Button(action: shareEntry) {
+                    Image(systemName: "square.and.arrow.up")
+                }
             }
 
             // Edit/Save button
