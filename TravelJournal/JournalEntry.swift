@@ -4,8 +4,9 @@ import SwiftUI
 import PhotosUI
 import CoreLocation
 import CoreLocationUI
-import MapKit
-import WeatherKit
+import UIKit
+//import MapKit
+//import WeatherKit
 
 
 struct JournalEntry: Identifiable, Codable {
@@ -18,12 +19,12 @@ struct JournalEntry: Identifiable, Codable {
     var latitude: Double?
     var longitude: Double?
     var placeName: String?
-
+    
     enum CodingKeys: String, CodingKey {
         case id, title, description, date, weather, photos, latitude, longitude, placeName
     }
-
-    // Custom initializer 
+    
+    // Custom initializer
     init(title: String = "",
          description: String = "",
          date: Date = Date(),
@@ -41,7 +42,7 @@ struct JournalEntry: Identifiable, Codable {
         self.longitude = longitude
         self.placeName = placeName
     }
-
+    
     // Custom encoding and decoding to handle optional values
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -55,7 +56,7 @@ struct JournalEntry: Identifiable, Codable {
         longitude = try container.decodeIfPresent(Double.self, forKey: .longitude)
         placeName = try container.decodeIfPresent(String.self, forKey: .placeName)
     }
-
+    
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(id, forKey: .id)
@@ -68,6 +69,24 @@ struct JournalEntry: Identifiable, Codable {
         try container.encodeIfPresent(longitude, forKey: .longitude)
         try container.encodeIfPresent(placeName, forKey: .placeName)
     }
+    
+    
+    func prepareShareContent() -> [Any] {
+        var itemsToShare: [Any] = []
+        
+        // Add text content
+        itemsToShare.append(description)
+        
+        // Add images
+        if let photosArray = photos {
+                for imageData in photosArray {
+                    if let image = UIImage(data: imageData) {
+                        itemsToShare.append(image)
+                    }
+                }
+            }
+
+        
+        return itemsToShare
+    }
 }
-
-

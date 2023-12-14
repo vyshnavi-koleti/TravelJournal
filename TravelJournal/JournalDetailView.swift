@@ -16,6 +16,7 @@ struct JournalDetailView: View {
     @State private var selectedPhotosPickerItems: [PhotosPickerItem] = []
     @State private var placeName: String = ""
     @State private var isGeocoding = false
+    @State private var showingShareSheet = false
 
 
     
@@ -31,10 +32,13 @@ struct JournalDetailView: View {
         if editableEntry.photos == nil {
             editableEntry.photos = []
         }
-        print("Initial place name: \(initialEntry.placeName ?? "nil")")
+//        print("Initial place name: \(initialEntry.placeName ?? "nil")")
 //        print("Initial description: \(initialEntry.description)") // Debugging line
     }
 
+    private func shareEntry() {
+            showingShareSheet = true
+        }
 
     
     
@@ -121,30 +125,7 @@ struct JournalDetailView: View {
                         .font(.subheadline)
                         .foregroundColor(.gray)
                 }
-                
-//                if showingEditView {
-//                    TextField("Place Name", text: $editableEntry.placeName.nilCoalescingBinding)
-//                        .font(.subheadline)
-//                        .onChange(of: editableEntry.placeName) { newValue in
-//                            viewModel.geocodeAddressString(newValue) { newCoordinates in
-//                                editableEntry.latitude = newCoordinates.latitude
-//                                editableEntry.longitude = newCoordinates.longitude
-//                                viewModel.fetchWeatherData(latitude: newCoordinates.latitude, longitude: newCoordinates.longitude) { weatherDescription in
-//                                    editableEntry.weather = weatherDescription
-//                                }
-//                            }
-//                        }
-//                    
-//                } else {
-//                    Text("Place Name: \(entry.placeName ?? "Not Available")")
-//                        .font(.subheadline)
-//                        .foregroundColor(.gray)
-//                }
-
-
-
-                
-                
+             
                 // Weather
                 if showingEditView {
                     TextField("Weather", text: $editableEntry.weather)
@@ -188,7 +169,6 @@ struct JournalDetailView: View {
                     }
                     
                     // Display existing photos with a delete option
-                    // Display existing photos with a delete option
                     if let photos = editableEntry.photos {
                         ForEach(photos.indices, id: \.self) { index in
                             if let uiImage = UIImage(data: photos[index]) {
@@ -224,20 +204,40 @@ struct JournalDetailView: View {
                         }
                     }
                 }
+//                Button("Share") {
+//                    showingShareSheet = true
+//                }
             }
             .padding()
         }
         .navigationBarTitle("Journal Entry", displayMode: .inline)
-        .navigationBarItems(trailing: Button(showingEditView ? "Save" : "Edit") {
-            if showingEditView {
-                // Save changes
-//                viewModel.updateJournalEntry(entry)
-//                entry = editableEntry
-                onSave(editableEntry)
+        .navigationBarItems(trailing: HStack {
+            // Share button
+            Button(action: shareEntry) {
+                Image(systemName: "square.and.arrow.up")
             }
-            showingEditView.toggle()
+
+            // Edit/Save button
+            Button(action: {
+                if showingEditView {
+                    onSave(editableEntry)
+                }
+                                    showingEditView.toggle()
+            }) {
+                Image(systemName: showingEditView ? "checkmark" : "pencil")
+            }
+//            Button(showingEditView ? "Save" : "Edit") {
+//                if showingEditView {
+//                    onSave(editableEntry)
+//                }
+//                showingEditView.toggle()
+//            }
+            
         })
 
+        .sheet(isPresented: $showingShareSheet) {
+                    ShareSheet(items: entry.prepareShareContent())
+                }
     }
 }
 

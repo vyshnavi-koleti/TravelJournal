@@ -28,6 +28,7 @@
 		CC930CE72B225A7F0070F880 /* ItineraryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC930CE62B225A7F0070F880 /* ItineraryViewModel.swift */; };
 		CC930CE92B225AE20070F880 /* ItineraryListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC930CE82B225AE20070F880 /* ItineraryListView.swift */; };
 		CC930CEB2B225B110070F880 /* ItineraryItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC930CEA2B225B110070F880 /* ItineraryItemView.swift */; };
+		CC930CED2B2A48EA0070F880 /* ShareSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC930CEC2B2A48EA0070F880 /* ShareSheet.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +75,7 @@
 		CC930CE62B225A7F0070F880 /* ItineraryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItineraryViewModel.swift; sourceTree = "<group>"; };
 		CC930CE82B225AE20070F880 /* ItineraryListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItineraryListView.swift; sourceTree = "<group>"; };
 		CC930CEA2B225B110070F880 /* ItineraryItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItineraryItemView.swift; sourceTree = "<group>"; };
+		CC930CEC2B2A48EA0070F880 /* ShareSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSheet.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -130,6 +132,7 @@
 				CC04EA322AFD586F00E21303 /* JournalDetailView.swift */,
 				CC04EA302AFD575400E21303 /* JournalViewModel.swift */,
 				CC04EA342AFD590200E21303 /* NewJournalEntryView.swift */,
+				CC930CEC2B2A48EA0070F880 /* ShareSheet.swift */,
 				CC04EA3C2AFD9C8500E21303 /* MapView.swift */,
 				CC04EA3A2AFD919E00E21303 /* LocationManager.swift */,
 				CC04EA362AFD59B900E21303 /* Utilities.swift */,
@@ -311,6 +314,7 @@
 				CC04EA332AFD586F00E21303 /* JournalDetailView.swift in Sources */,
 				CC04EA3B2AFD919E00E21303 /* LocationManager.swift in Sources */,
 				CC29281F2AEAE53A00FACB64 /* Item.swift in Sources */,
+				CC930CED2B2A48EA0070F880 /* ShareSheet.swift in Sources */,
 				CC930CEB2B225B110070F880 /* ItineraryItemView.swift in Sources */,
 				CC04EA2F2AFD56F300E21303 /* JournalEntry.swift in Sources */,
 				CC04EA2B2AF42D1200E21303 /* NewFile.swift in Sources */,
