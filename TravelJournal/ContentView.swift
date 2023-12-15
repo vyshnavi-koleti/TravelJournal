@@ -42,6 +42,14 @@ struct ContentView: View {
                     }
                 }
                 .navigationBarTitle("Travel Journals", displayMode: .inline)
+                .navigationBarItems(trailing: Button(action: {
+                                    showingNewEntryView = true
+                }) {
+                    Image(systemName: "plus")
+                })
+                .sheet(isPresented: $showingNewEntryView) {
+                    NewJournalEntryView(viewModel: viewModel, journalEntries: $viewModel.journalEntries, saveAction: viewModel.saveJournalEntries)
+                }
             }
             .tabItem {
                 Label("Journals", systemImage: "book.fill")
