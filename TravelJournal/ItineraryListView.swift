@@ -28,6 +28,7 @@ struct ItineraryListView: View {
             .navigationBarTitle("Itinerary")
             .navigationBarItems(trailing: Button("Add") {
                 showingAddItemView = true
+                
             })
             .sheet(isPresented: $showingAddItemView) {
                 AddItineraryItemView(viewModel: viewModel)

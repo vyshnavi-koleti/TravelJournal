@@ -14,6 +14,7 @@ struct TravelJournalApp: App {
         WindowGroup {
             ContentView()
                 .accentColor(Color("#355D48"))
+                .environmentObject(LocalSearchService())
         }
     }
 }

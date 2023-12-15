@@ -5,96 +5,86 @@
 //  Created by Vyshnavi Koleti on 10/26/23.
 //
 
-import Foundation
-import Combine
+
+
 import SwiftUI
+import Combine
 import PhotosUI
 import CoreLocation
 import CoreLocationUI
 import MapKit
-import WeatherKit
-
-//import CloudKit
-
-
 
 struct ContentView: View {
     @StateObject private var viewModel = JournalViewModel()
     @State private var showingNewEntryView = false
-    @State private var selectedTab = 0
+    @State private var selectedTab = 0  // Default tab index
+    @StateObject private var localSearchService = LocalSearchService()
 
     var body: some View {
         TabView(selection: $selectedTab) {
             // Travel Journals Tab
             NavigationView {
                 ZStack {
-                    // Background image
-                    Image("homepage_image2")
-//                        .resizable()
-                        .scaledToFill()
-//                        .edgesIgnoringSafeArea(.all)
-
-                    // List of journal entries
-                    List {
-                        ForEach(viewModel.journalEntries) { entry in
-                            NavigationLink(destination: JournalDetailView(entry: .constant(entry), viewModel: viewModel, onSave: { updatedEntry in
-                                viewModel.updateJournalEntry(updatedEntry)
-                            })) {
-                                Text(entry.title)
-                            }
-                            .swipeActions {
-                                
+                    Image("homepage_image2").scaledToFill()
+                    List(viewModel.journalEntries) { entry in
+                        NavigationLink(destination: JournalDetailView(entry: .constant(entry), viewModel: viewModel, onSave: { updatedEntry in
+                            viewModel.updateJournalEntry(updatedEntry)
+                        })) {
+                            Text(entry.title)
+                        }
+                        .swipeActions {
+                            Button(role: .destructive) {
                                 // Delete action
-                                Button(role: .destructive) {
-                                    //delete
-                                } label: {
-                                    Label("Delete", systemImage: "trash")
-                                }
+                            } label: {
+                                Label("Delete", systemImage: "trash")
                             }
                         }
                     }
                 }
-                .navigationBarTitle("Travel Journal", displayMode: .inline)
-                .navigationBarItems(trailing: Button(action: {
-                    showingNewEntryView = true
-                }) {
-                    Image(systemName: "plus")
-                })
-                .sheet(isPresented: $showingNewEntryView) {
-                    NewJournalEntryView(viewModel: viewModel, journalEntries: $viewModel.journalEntries, saveAction: viewModel.saveJournalEntries)
-                }
+                .navigationBarTitle("Travel Journals", displayMode: .inline)
             }
             .tabItem {
-                Label("Travel Journals", systemImage: "book.fill")
+                Label("Journals", systemImage: "book.fill")
             }
             .tag(0)
-            
-            
-            ItineraryListView()
-                    .tabItem {
-                        Label("Itinerary", systemImage: "map.fill")
-                    }
-                    .tag(1)
 
-            // Profile Tab - ti be replaced later with actual profile view later            
-            ProfileView()
-                .tabItem {
-                    Label("Profile", systemImage: "person.fill")
-                }
-                .tag(2)
-            
+            // Places Tab
+            NavigationView {
+                PlacesView()
+                    .environmentObject(localSearchService)
+                    .navigationBarTitle("Explore", displayMode: .inline)
+            }
+            .tabItem {
+                Label("Places", systemImage: "mappin.and.ellipse")
+            }
+            .tag(1)
+
+            // Itinerary Tab
+            NavigationView {
+                ItineraryListView()
+                    .navigationBarTitle("Itinerary", displayMode: .inline)
+            }
+            .tabItem {
+                Label("Itinerary", systemImage: "map.fill")
+            }
+            .tag(2)
+
+            // Expense Tracker
+            NavigationView {
+                ExpenseTrackerView()
+                    .navigationBarTitle("Expenses", displayMode: .inline)
+            }
+            .tabItem {
+                Label("Expenses", systemImage: "dollarsign.circle")
+            }
+            .tag(3)
         }
         .accentColor(Color(hex: "#355D48"))
     }
 }
 
-//?replace later
 
-struct ProfileView: View {
-    var body: some View {
-        Text("Profile")
-    }
-}
+
 
 
 
@@ -103,4 +93,3 @@ struct ProfileView: View {
     ContentView()
         .modelContainer(for: Item.self, inMemory: true)
 }
-
