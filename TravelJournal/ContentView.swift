@@ -55,7 +55,7 @@ struct ContentView: View {
                     .navigationBarTitle("Explore", displayMode: .inline)
             }
             .tabItem {
-                Label("Places", systemImage: "mappin.and.ellipse")
+                Label("Explore", systemImage: "mappin.and.ellipse")
             }
             .tag(1)
 
