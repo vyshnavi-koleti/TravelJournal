@@ -27,9 +27,9 @@ struct NewJournalEntryView: View {
     @State private var uiImages = [Data]()
     @State private var alertType: AlertType = .none
     
-
+    
     @Environment(\.presentationMode) var presentationMode
-
+    
     var body: some View {
         NavigationView {
             Form {
@@ -68,65 +68,18 @@ struct NewJournalEntryView: View {
         
         
     }
-
+    
     private var titleField: some View {
         TextField("Title", text: $title)
     }
-
+    
     private var descriptionField: some View {
         TextField("Description", text: $description)
     }
-
-
-//working
-//    private var locationSection: some View {
-//        Section(header: Text("Location")) {
-//            if let currentLocation = viewModel.currentLocation {
-//                Text("Current Location: \(currentLocation.coordinate.latitude), \(currentLocation.coordinate.longitude)")
-//            } else {
-//                Text("Current Location: Not Available")
-//            }
-////            TextField("Place Name", text: $viewModel.placeName)
-//            TextField("Place Name", text: $viewModel.placeName)
-//                .onChange(of: viewModel.placeName) { newPlaceName, _ in
-//                    viewModel.updateLocationAndWeather(forPlaceName: newPlaceName)
-//                }
-//
-//            
-//            Button("Update Weather") {
-////                updateWeather()
-//                if !self.placeName.isEmpty {
-//                        viewModel.fetchWeatherForPlaceName(self.placeName)
-//                    } else {
-//                        // Handle the case where place name is empty
-//                        print("Place name is empty")
-//                    }
-//            }
-//        }
-//    }
     
-//    private var locationSection: some View {
-//        Section(header: Text("Location")) {
-//            if let currentLocation = viewModel.currentLocation {
-//                Text("Current Location: \(currentLocation.coordinate.latitude), \(currentLocation.coordinate.longitude)")
-//            } else {
-//                Text("Current Location: Not Available")
-//            }
-//            TextField("Place Name", text: $viewModel.placeName)
-//
-//            Button("Update Weather") {
-//                if !viewModel.placeName.isEmpty {
-//                    viewModel.fetchWeatherForPlaceName(viewModel.placeName) { fetchedWeather in
-//                        self.weather = fetchedWeather
-//                    }
-//                } else {
-//                    print("Place name is empty")
-//                }
-//            }
-//
-//        }
-//    }
-
+    
+    
+    
     private var locationSection: some View {
         Section(header: Text("Location")) {
             if let currentLocation = viewModel.currentLocation {
@@ -135,7 +88,7 @@ struct NewJournalEntryView: View {
                 Text("Current Location: Not Available")
             }
             TextField("Place Name", text: $viewModel.placeName)
-
+            
             Button("Update Location and Weather") {
                 if !viewModel.placeName.isEmpty {
                     viewModel.geocodeAddressString(viewModel.placeName) { newCoordinates in
@@ -145,27 +98,27 @@ struct NewJournalEntryView: View {
                         }
                     }
                 } else {
-//                    print("Place name is empty")
-                        alertType = .emptyPlaceName
+                    //                    print("Place name is empty")
+                    alertType = .emptyPlaceName
                     
                 }
             }
         }
     }
-
     
-
-
+    
+    
+    
     private var weatherField: some View {
         TextField("Weather", text: $weather)
             .keyboardType(.default)
     }
-
+    
     private var datePickerSection: some View {
         DatePicker("Select Date", selection: $selectedDate, displayedComponents: [.date])
             .datePickerStyle(GraphicalDatePickerStyle())
     }
-
+    
     private var photosPickerSection: some View {
         PhotosPicker("Select images", selection: $selectedItems, matching: .images)
             .onChange(of: selectedItems) { newValue, _ in
@@ -179,13 +132,13 @@ struct NewJournalEntryView: View {
                 }
             }
     }
-
+    
     private var cancelButton: some View {
         Button("Cancel") {
             presentationMode.wrappedValue.dismiss()
         }
     }
-
+    
     private var saveButton: some View {
         Button("Save") {
             if !title.isEmpty && !description.isEmpty {
@@ -195,7 +148,7 @@ struct NewJournalEntryView: View {
             }
         }
     }
-
+    
     private func saveEntry() {
         let newEntry = JournalEntry(
             title: title,
@@ -211,8 +164,8 @@ struct NewJournalEntryView: View {
         saveAction()
         presentationMode.wrappedValue.dismiss()
     }
-
-
+    
+    
     
     private func updateWeather() {
         if let currentLocation = viewModel.currentLocation {
@@ -222,24 +175,9 @@ struct NewJournalEntryView: View {
         }
     }
     
-    
-    
-
-
-    
-    
-
 }
 
-
-
-
-
-   
- 
-            
-            
-            
+           
             
 extension CLPlacemark {
      var compactAddress: String? {

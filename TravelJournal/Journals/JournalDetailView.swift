@@ -125,32 +125,7 @@ struct JournalDetailView: View {
                         .foregroundColor(.gray)
                 }
                 
-//                if showingEditView {
-//                    HStack {
-//                        TextField("Place Name", text: $inputPlaceName)
-//                            .placeholder(inputPlaceName.isEmpty) {
-//                                Text("Enter Place Name").foregroundColor(.gray)
-//                            }
-//                            .font(.subheadline)
-//                        
-//                        Button("Update") {
-//                            editableEntry.placeName = inputPlaceName
-//                            if let placeName = editableEntry.placeName {
-//                                viewModel.geocodeAddressString(placeName) { newCoordinates in
-//                                    editableEntry.latitude = newCoordinates.latitude
-//                                    editableEntry.longitude = newCoordinates.longitude
-//                                    viewModel.fetchWeatherData(latitude: newCoordinates.latitude, longitude: newCoordinates.longitude) { weatherDescription in
-//                                        self.editableEntry.weather = weatherDescription
-//                                    }
-//                                }
-//                            }
-//                        }
-//                    }
-//                } else {
-//                    Text("Place Name: \(entry.placeName ?? "Not Available")")
-//                        .font(.subheadline)
-//                        .foregroundColor(.gray)
-//                }
+
 
                 // Weather
                 if showingEditView {
