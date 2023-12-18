@@ -13,7 +13,7 @@ struct ItineraryListView: View {
         ZStack {
             FootstepsBackgroundView()
 
-            NavigationView {
+//            NavigationView {
                 List {
                     ForEach(viewModel.items) { item in
                         NavigationLink(destination: ItineraryItemView(item: item)) {
@@ -22,7 +22,8 @@ struct ItineraryListView: View {
                     }
                     .onDelete(perform: viewModel.removeItem)
                 }
-                .navigationBarTitle("Itinerary", displayMode: .inline) 
+                .listRowBackground(Color.clear) // Make list rows transparent
+                .navigationBarTitle("Itinerary", displayMode: .inline)
                 .navigationBarItems(trailing: Button(action: {
                     showingAddItemView = true
                 }) {
@@ -31,10 +32,12 @@ struct ItineraryListView: View {
                 .sheet(isPresented: $showingAddItemView) {
                     AddItineraryItemView(viewModel: viewModel)
                 }
-            }
+//            }
+//            .background(Color.clear) 
         }
     }
 }
+
 
 
 
