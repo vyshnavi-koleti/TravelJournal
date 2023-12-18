@@ -25,12 +25,17 @@ struct Expense: Identifiable {
     var notes: String?
 }
 
+
+
+
 struct ExpenseTrackerView: View {
     @StateObject var viewModel = ExpenseTrackerViewModel()
     @State private var showingAddExpenseView = false
 
     var body: some View {
-        NavigationView {
+        ZStack {
+            FootstepsBackgroundView()
+
             List {
                 ForEach(viewModel.expenses) { expense in
                     VStack(alignment: .leading) {
@@ -45,9 +50,11 @@ struct ExpenseTrackerView: View {
                 }
                 .onDelete(perform: viewModel.removeExpense)
             }
-            .navigationBarTitle("Expenses")
-            .navigationBarItems(trailing: Button("Add") {
+            .navigationBarTitle("Expenses", displayMode: .inline)
+            .navigationBarItems(trailing: Button(action: {
                 showingAddExpenseView = true
+            }) {
+                Image(systemName: "plus")
             })
             .sheet(isPresented: $showingAddExpenseView) {
                 AddExpenseView(viewModel: viewModel)
@@ -55,6 +62,12 @@ struct ExpenseTrackerView: View {
         }
     }
 }
+
+
+
+
+
+
 
 struct AddExpenseView: View {
     @ObservedObject var viewModel: ExpenseTrackerViewModel
@@ -90,3 +103,5 @@ struct AddExpenseView: View {
         }
     }
 }
+
+

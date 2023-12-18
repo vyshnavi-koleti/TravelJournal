@@ -41,7 +41,7 @@ struct ContentView: View {
                         }
                     }
                 }
-                .navigationBarTitle("Travel Journals", displayMode: .inline)
+                .navigationBarTitle("Journals", displayMode: .inline)
                 .navigationBarItems(trailing: Button(action: {
                                     showingNewEntryView = true
                 }) {
@@ -70,7 +70,6 @@ struct ContentView: View {
             // Itinerary Tab
             NavigationView {
                 ItineraryListView()
-                    .navigationBarTitle("Itinerary", displayMode: .inline)
             }
             .tabItem {
                 Label("Itinerary", systemImage: "map.fill")

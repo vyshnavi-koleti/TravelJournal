@@ -82,18 +82,3 @@ struct ItineraryItemView: View {
     }
 }
 
-
-//struct ItineraryItemView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ItineraryItemView(item: ItineraryItem(
-//            destination: "Paris",
-//            startDate: Date(),
-//            endDate: Date().addingTimeInterval(86400),
-//            activities: [
-//                Activity(title: "Eiffel Tower Visit", description: "Tour of the Eiffel Tower", time: Date().addingTimeInterval(3600)),
-//                Activity(title: "Louvre Museum", description: "Visit the Louvre Museum", time: Date().addingTimeInterval(7200))
-//            ],
-//            notes: "Remember to bring a camera!"
-//        ))
-//    }
-//}

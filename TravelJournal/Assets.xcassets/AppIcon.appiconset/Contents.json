@@ -1,6 +1,7 @@
 {
   "images" : [
     {
+      "filename" : "VoyageJournalIcon2.0.png",
       "idiom" : "universal",
       "platform" : "ios",
       "size" : "1024x1024"

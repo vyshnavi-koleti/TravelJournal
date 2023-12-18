@@ -1,9 +1,3 @@
-//
-//  ItineraryListView.swift
-//  TravelJournal
-//
-//  Created by Vyshnavi Koleti on 12/8/23.
-//
 
 import Foundation
 import Combine
@@ -14,28 +8,35 @@ import SwiftUI
 struct ItineraryListView: View {
     @ObservedObject var viewModel = ItineraryViewModel()
     @State private var showingAddItemView = false
-
+    
     var body: some View {
-        NavigationView {
-            List {
-                ForEach(viewModel.items) { item in
-                    NavigationLink(destination: ItineraryItemView(item: item)) {
-                        Text(item.destination)
+        ZStack {
+            FootstepsBackgroundView()
+
+            NavigationView {
+                List {
+                    ForEach(viewModel.items) { item in
+                        NavigationLink(destination: ItineraryItemView(item: item)) {
+                            Text(item.destination)
+                        }
                     }
+                    .onDelete(perform: viewModel.removeItem)
                 }
-                .onDelete(perform: viewModel.removeItem)
-            }
-            .navigationBarTitle("Itinerary")
-            .navigationBarItems(trailing: Button("Add") {
-                showingAddItemView = true
-                
-            })
-            .sheet(isPresented: $showingAddItemView) {
-                AddItineraryItemView(viewModel: viewModel)
+                .navigationBarTitle("Itinerary", displayMode: .inline) 
+                .navigationBarItems(trailing: Button(action: {
+                    showingAddItemView = true
+                }) {
+                    Image(systemName: "plus")
+                })
+                .sheet(isPresented: $showingAddItemView) {
+                    AddItineraryItemView(viewModel: viewModel)
+                }
             }
         }
     }
 }
+
+
 
 struct AddItineraryItemView: View {
     @ObservedObject var viewModel: ItineraryViewModel
@@ -52,19 +53,19 @@ struct AddItineraryItemView: View {
         NavigationView {
             Form {
                 TextField("Destination", text: $destination)
-                DatePicker("Start Date", selection: $startDate, displayedComponents: .date)
-                DatePicker("End Date", selection: $endDate, displayedComponents: .date)
+                DatePicker("Start Date", selection: $startDate, in: Date()..., displayedComponents: .date)
+                DatePicker("End Date", selection: $endDate, in: startDate..., displayedComponents: .date)
                 
                 Section(header: Text("Activities")) {
                     ForEach($activities.indices, id: \.self) { index in
                         VStack {
                             TextField("Activity Title", text: $activities[index].title)
                             TextField("Description", text: $activities[index].description)
-                            DatePicker("Time", selection: $activities[index].time, displayedComponents: .hourAndMinute)
+                            DatePicker("Date and Time", selection: $activities[index].time, in: startDate...endDate)
                         }
                     }
                     Button("Add Activity") {
-                        activities.append(Activity(title: "", description: "", time: Date()))
+                        activities.append(Activity(title: "", description: "", time: startDate))
                     }
                 }
 
@@ -89,13 +90,16 @@ struct AddItineraryItemView: View {
     }
 
     private func validateInputs() -> Bool {
-        // Ensure destination is not empty
         if destination.isEmpty {
             alertMessage = "Please enter a destination."
             return false
         }
 
-        // Ensure there is at least one activity and none of the activity titles are empty
+        if endDate < startDate {
+            alertMessage = "End date must be after start date."
+            return false
+        }
+
         if activities.contains(where: { $0.title.isEmpty }) {
             alertMessage = "Please enter a title for each activity."
             return false

@@ -27,6 +27,9 @@
 		CC42998C2B2C820A00E032B5 /* Landmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC42998B2B2C820A00E032B5 /* Landmark.swift */; };
 		CC42998E2B2C825600E032B5 /* LandmarkListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC42998D2B2C825600E032B5 /* LandmarkListView.swift */; };
 		CC4299902B2C841400E032B5 /* MKCoordinateRegion.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC42998F2B2C841400E032B5 /* MKCoordinateRegion.swift */; };
+		CC4299922B3089FA00E032B5 /* MaraudersMapAnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC4299912B3089FA00E032B5 /* MaraudersMapAnimationView.swift */; };
+		CC4299942B309FF100E032B5 /* FootstepsBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC4299932B309FF100E032B5 /* FootstepsBackgroundView.swift */; };
+		CC4299972B30A74300E032B5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CC4299962B30A74300E032B5 /* LaunchScreen.storyboard */; };
 		CC930CE52B225A5D0070F880 /* ItineraryModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC930CE42B225A5D0070F880 /* ItineraryModels.swift */; };
 		CC930CE72B225A7F0070F880 /* ItineraryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC930CE62B225A7F0070F880 /* ItineraryViewModel.swift */; };
 		CC930CE92B225AE20070F880 /* ItineraryListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC930CE82B225AE20070F880 /* ItineraryListView.swift */; };
@@ -78,6 +81,9 @@
 		CC42998B2B2C820A00E032B5 /* Landmark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Landmark.swift; sourceTree = "<group>"; };
 		CC42998D2B2C825600E032B5 /* LandmarkListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandmarkListView.swift; sourceTree = "<group>"; };
 		CC42998F2B2C841400E032B5 /* MKCoordinateRegion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MKCoordinateRegion.swift; sourceTree = "<group>"; };
+		CC4299912B3089FA00E032B5 /* MaraudersMapAnimationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaraudersMapAnimationView.swift; sourceTree = "<group>"; };
+		CC4299932B309FF100E032B5 /* FootstepsBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FootstepsBackgroundView.swift; sourceTree = "<group>"; };
+		CC4299962B30A74300E032B5 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CC930CE42B225A5D0070F880 /* ItineraryModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItineraryModels.swift; sourceTree = "<group>"; };
 		CC930CE62B225A7F0070F880 /* ItineraryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItineraryViewModel.swift; sourceTree = "<group>"; };
 		CC930CE82B225AE20070F880 /* ItineraryListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItineraryListView.swift; sourceTree = "<group>"; };
@@ -114,6 +120,7 @@
 		CC29280E2AEAE53900FACB64 = {
 			isa = PBXGroup;
 			children = (
+				CC4299962B30A74300E032B5 /* LaunchScreen.storyboard */,
 				CC2928192AEAE53A00FACB64 /* TravelJournal */,
 				CC29282E2AEAE53B00FACB64 /* TravelJournalTests */,
 				CC2928382AEAE53B00FACB64 /* TravelJournalUITests */,
@@ -136,24 +143,12 @@
 			children = (
 				CC29281A2AEAE53A00FACB64 /* TravelJournalApp.swift */,
 				CC29281C2AEAE53A00FACB64 /* ContentView.swift */,
-				CC4299872B2C7F8800E032B5 /* PlacesView.swift */,
-				CC42998D2B2C825600E032B5 /* LandmarkListView.swift */,
-				CC4299892B2C81DF00E032B5 /* LocalSearchService.swift */,
-				CC42998B2B2C820A00E032B5 /* Landmark.swift */,
-				CC42998F2B2C841400E032B5 /* MKCoordinateRegion.swift */,
-				CC04EA2E2AFD56F300E21303 /* JournalEntry.swift */,
-				CC04EA322AFD586F00E21303 /* JournalDetailView.swift */,
-				CC04EA302AFD575400E21303 /* JournalViewModel.swift */,
-				CC04EA342AFD590200E21303 /* NewJournalEntryView.swift */,
-				CC930CEC2B2A48EA0070F880 /* ShareSheet.swift */,
-				CC04EA3A2AFD919E00E21303 /* LocationManager.swift */,
-				CC04EA362AFD59B900E21303 /* Utilities.swift */,
-				CC04EA2C2AF4328800E21303 /* journalEntries.json */,
-				CC930CE42B225A5D0070F880 /* ItineraryModels.swift */,
-				CC930CEA2B225B110070F880 /* ItineraryItemView.swift */,
-				CC930CE62B225A7F0070F880 /* ItineraryViewModel.swift */,
-				CC930CE82B225AE20070F880 /* ItineraryListView.swift */,
-				CC930CFC2B2BCD540070F880 /* ExpenseTracker.swift */,
+				CC4299952B30A6E400E032B5 /* Places */,
+				CC4299982B30AE2C00E032B5 /* Journals */,
+				CC42999B2B30AE7B00E032B5 /* Managers */,
+				CC4299992B30AE5300E032B5 /* Itinerary */,
+				CC42999D2B30AEA500E032B5 /* Expense */,
+				CC42999E2B30AEAF00E032B5 /* Background */,
 				CC29281E2AEAE53A00FACB64 /* Item.swift */,
 				CC2928202AEAE53B00FACB64 /* Assets.xcassets */,
 				CC2928252AEAE53B00FACB64 /* TravelJournal.entitlements */,
@@ -186,6 +181,68 @@
 				CC29283B2AEAE53B00FACB64 /* TravelJournalUITestsLaunchTests.swift */,
 			);
 			path = TravelJournalUITests;
+			sourceTree = "<group>";
+		};
+		CC4299952B30A6E400E032B5 /* Places */ = {
+			isa = PBXGroup;
+			children = (
+				CC4299872B2C7F8800E032B5 /* PlacesView.swift */,
+				CC42998F2B2C841400E032B5 /* MKCoordinateRegion.swift */,
+				CC42998B2B2C820A00E032B5 /* Landmark.swift */,
+				CC42998D2B2C825600E032B5 /* LandmarkListView.swift */,
+				CC4299892B2C81DF00E032B5 /* LocalSearchService.swift */,
+			);
+			path = Places;
+			sourceTree = "<group>";
+		};
+		CC4299982B30AE2C00E032B5 /* Journals */ = {
+			isa = PBXGroup;
+			children = (
+				CC04EA2E2AFD56F300E21303 /* JournalEntry.swift */,
+				CC04EA342AFD590200E21303 /* NewJournalEntryView.swift */,
+				CC04EA2C2AF4328800E21303 /* journalEntries.json */,
+				CC04EA302AFD575400E21303 /* JournalViewModel.swift */,
+				CC04EA322AFD586F00E21303 /* JournalDetailView.swift */,
+			);
+			path = Journals;
+			sourceTree = "<group>";
+		};
+		CC4299992B30AE5300E032B5 /* Itinerary */ = {
+			isa = PBXGroup;
+			children = (
+				CC930CE42B225A5D0070F880 /* ItineraryModels.swift */,
+				CC930CEA2B225B110070F880 /* ItineraryItemView.swift */,
+				CC930CE62B225A7F0070F880 /* ItineraryViewModel.swift */,
+				CC930CE82B225AE20070F880 /* ItineraryListView.swift */,
+			);
+			path = Itinerary;
+			sourceTree = "<group>";
+		};
+		CC42999B2B30AE7B00E032B5 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				CC04EA362AFD59B900E21303 /* Utilities.swift */,
+				CC930CEC2B2A48EA0070F880 /* ShareSheet.swift */,
+				CC04EA3A2AFD919E00E21303 /* LocationManager.swift */,
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
+		CC42999D2B30AEA500E032B5 /* Expense */ = {
+			isa = PBXGroup;
+			children = (
+				CC930CFC2B2BCD540070F880 /* ExpenseTracker.swift */,
+			);
+			path = Expense;
+			sourceTree = "<group>";
+		};
+		CC42999E2B30AEAF00E032B5 /* Background */ = {
+			isa = PBXGroup;
+			children = (
+				CC4299912B3089FA00E032B5 /* MaraudersMapAnimationView.swift */,
+				CC4299932B309FF100E032B5 /* FootstepsBackgroundView.swift */,
+			);
+			path = Background;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -297,6 +354,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CC2928242AEAE53B00FACB64 /* Preview Assets.xcassets in Resources */,
+				CC4299972B30A74300E032B5 /* LaunchScreen.storyboard in Resources */,
 				CC04EA2D2AF4328800E21303 /* journalEntries.json in Resources */,
 				CC2928212AEAE53B00FACB64 /* Assets.xcassets in Resources */,
 			);
@@ -333,6 +391,8 @@
 				CC04EA3B2AFD919E00E21303 /* LocationManager.swift in Sources */,
 				CC4299882B2C7F8800E032B5 /* PlacesView.swift in Sources */,
 				CC29281F2AEAE53A00FACB64 /* Item.swift in Sources */,
+				CC4299942B309FF100E032B5 /* FootstepsBackgroundView.swift in Sources */,
+				CC4299922B3089FA00E032B5 /* MaraudersMapAnimationView.swift in Sources */,
 				CC930CED2B2A48EA0070F880 /* ShareSheet.swift in Sources */,
 				CC930CEB2B225B110070F880 /* ItineraryItemView.swift in Sources */,
 				CC04EA2F2AFD56F300E21303 /* JournalEntry.swift in Sources */,
@@ -511,9 +571,13 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TravelJournal/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Voyage Journal";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "We need your location to provide notifications and information relevant to your area\n\nWe need your location to provide notifications and information relevant to your area\n\nWe need your location to provide notifications and information relevant to your area\n\nWe need yopur location to provide notiofications and information relavant to your area.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We need your location to provide location-based features.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -542,9 +606,13 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TravelJournal/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Voyage Journal";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "We need your location to provide notifications and information relevant to your area\n\nWe need your location to provide notifications and information relevant to your area\n\nWe need your location to provide notifications and information relevant to your area\n\nWe need yopur location to provide notiofications and information relavant to your area.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We need your location to provide location-based features.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
