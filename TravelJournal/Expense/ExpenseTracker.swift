@@ -76,6 +76,10 @@ struct AddExpenseView: View {
     @State private var date = Date()
     @State private var notes = ""
     @Environment(\.presentationMode) var presentationMode
+    
+    private var isFormValid: Bool {
+        !category.isEmpty && !amount.isEmpty && Double(amount) != nil
+    }
 
     var body: some View {
         NavigationView {
@@ -85,16 +89,15 @@ struct AddExpenseView: View {
                     .keyboardType(.decimalPad)
                 DatePicker("Date", selection: $date, displayedComponents: .date)
                 TextField("Notes", text: $notes)
-
+                
                 Button("Save") {
-                    guard let amountDouble = Double(amount), !category.isEmpty else {
-                        return
+                    if let amountDouble = Double(amount) {
+                        let newExpense = Expense(category: category, amount: amountDouble, date: date, notes: notes)
+                        viewModel.addExpense(newExpense)
+                        presentationMode.wrappedValue.dismiss()
                     }
-                    let newExpense = Expense(category: category, amount: amountDouble, date: date, notes: notes)
-                    viewModel.addExpense(newExpense)
-                    presentationMode.wrappedValue.dismiss()
                 }
-
+                .disabled(!isFormValid) // Disable the button if the form is not valid
             }
             .navigationBarTitle("Add Expense")
             .navigationBarItems(leading: Button("Cancel") {
